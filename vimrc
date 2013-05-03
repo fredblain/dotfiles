@@ -3,7 +3,42 @@ set nocompatible                                  " désactivation de la compati
 colorscheme desert                                " couleur
 syntax enable
 
-set mouse=a
+" Setting up Vundle - the vim plugin bundler
+    let iCanHazVundle=1
+    let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+    if !filereadable(vundle_readme)
+        echo "Installing Vundle..."
+        echo ""
+        silent !mkdir -p ~/.vim/bundle
+        silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+        let iCanHazVundle=0
+    endif
+    set rtp+=~/.vim/bundle/vundle/
+    call vundle#rc()
+    Bundle 'gmarik/vundle'
+    " nerdtree
+    Bundle 'scrooloose/nerdtree'
+    " syntastic
+    Bundle 'scrooloose/syntastic'
+    " vim surround
+    Bundle 'tpope/vim-surround'
+    " gist
+    Bundle 'mattn/gist-vim'
+    " TAGS
+    " easytags
+    Bundle 'xolox/vim-easytags'
+    " tagbar
+    Bundle 'majutsushi/tagbar'
+    let g:tagbar_right = 1
+    " snipMate
+    Bundle 'msanders/snipmate.vim'
+    if iCanHazVundle == 0
+        echo "Installing Bundles..."
+        echo ""
+        :BundleInstall
+    endif
+
+set mouse=a                                       " active l'utilisation et la navigation au curseur
 set number                                        " numérotation des lignes
 set ignorecase                                    " ne pas prendre en compte la casse pour les recherches
 set autoindent                                    " indentation automatique avancée
@@ -23,8 +58,9 @@ hi CursorLine guibg=#4d4d4d                       " couleur de fond pour la lign
 
 filetype plugin indent on                         " détection automatique du type de fichier
 autocmd FileType text setlocal textwidth=80       " les fichiers de type .txt sont limites à 80 caractères par ligne
+set wrap                                          " retour à ligne automatique
+set lbr                                           " force le retour à la ligne pour un mot
 set fileformats=unix,mac,dos                      " gestion des retours chariot en fonction du type de fichier
-"set viewdir=/home/blain/.vim/saveview/           " répertoire pour sauvegarder les vues, utiles pour les replis manuels
 
 set foldcolumn=2                                  " repère visuel pour les folds
 
@@ -104,28 +140,21 @@ au filetype xml         set omnifunc=xmlcomplete#CompleteTags
 """"""""""""""""""""""""""""""""""""""""""""""""""
 "Personnalisation de la barre de statut
 """"""""""""""""""""""""""""""""""""""""""""""""""
-set statusline=\ \ '%t%m%r%h%w'\ (%L\ lines)\ [FORMAT=%{&ff}]\ [ENCODING:\%{&fileencoding},\ ascii=\%03.3b\ hex=\%02.2B]\ [POS=%04l,%04v\ %p%%]\ \ \ [TAG=%{Tlist_Get_Tagname_By_Line()}]
+set statusline=\ \ '%t%m%r%h%w'\ (%L\ lines)\ [FORMAT=%{&ff}]\ [ENCODING:\%{&fileencoding},\ ascii=\%03.3b\ hex=\%02.2B]\ [POS=%04l,%04v\ %p%%]
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 "Mapping pour l'activation de l'explorateur
 "système
 """"""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <silent> <F9> :NERDTree ${PWD}<CR>
+nnoremap <silent> <F9> :NERDTreeFind <CR>
 "let loaded_nerd_tree = 1	" turn off
-let NERDTreeShowHidden = 0	" display hidden file on start
+"let NERDTreeShowHidden = 0	" display hidden file on start
 "let NERDTreeMirror = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 "Mapping et configuration pour la liste des tags
 """"""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <silent> <F8> :TlistToggle<CR>
-let Tlist_Ctags_Cmd = '/usr/bin/ctags'	" implémentation de ctags, nécessaire pour le plugin 'taglist'
-let Tlist_Exit_OnlyWindow = 1		" vim se ferme si il reste uniquement la fenêtre des tags
-let Tlist_Process_File_Always = 1	" activation permanente du plugin pour la barre de statut
-let Tlist_Use_Right_Window = 1		" affiche les tags sur le côté droit de l'écran
-let Tlist_File_Fold_Auto_Close = 1	" referme automatiquement les fichiers inactifs
-let Tlist_Auto_Open = 1			" ouvre automatiquement la fenetre des tags au lancement de (G)Vim
-let Tlist_Use_SingleClick = 1           " single left mouse click to jump to tags
+nmap <silent> <F8> :TagbarToggle<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 "Map pour se déplacer dans les onglets
