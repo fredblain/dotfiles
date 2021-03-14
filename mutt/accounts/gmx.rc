@@ -1,0 +1,36 @@
+set from = "fc.blain@gmx.com"
+my_hdr bcc: "fc.blain@gmx.com" 
+set sendmail = "/usr/bin/msmtp -a gmx"
+
+# Set folders
+set spoolfile = "+gmx/INBOX"
+set mbox = "+gmx/archive"
+set postponed = "+gmx/drafts"
+set record = "+gmx/sent"
+set trash = "+gmx/trash"
+
+# custom signaure
+set signature = /home/fblain/.mutt/accounts/gmx.sig
+
+color status red default
+
+macro index <F5> "<shell-escape>mbsync gmx<enter>" "run mbsync to sync mail for this account"
+
+macro index,pager s \
+  "<enter-command>set my_old_resolve=\$resolve noresolve<enter>\
+  <tag-prefix><clear-flag>n<enter-command>set resolve=\$my_old_resolve<enter>\
+  <save-message>+gmx/junk<enter>" \
+  "mark as read and move to junk folder"
+
+macro index,pager A \
+  "<save-message>+gmx/archive<enter>"  \
+  "move message to the archive"
+
+macro index,pager i \
+  "<save-message>+gmx/INBOX<enter>"  \
+  "move message to the inbox"
+
+macro index d \
+	"<save-message>+gmx/trash<enter>" \
+	"move message to the trash"
+

@@ -1,0 +1,122 @@
+# example: https://webgefrickel.de/blog/a-modern-mutt-setup-part-two
+set realname='Fred Blain'
+
+set edit_headers=yes
+set folder=/home/fblain/.mail
+set spoolfile="+uwolv/INBOX"
+
+# paths
+set folder = /home/fblain/.mail
+set header_cache = /home/fblain/.mutt/cache/headers
+set message_cachedir = /home/fblain/.mutt/cache/bodies
+set certificate_file = /etc/ssl/certs/ca-certificates.crt 
+set mailcap_path = /home/fblain/.mutt/mailcap
+# set tmpdir = /home/fblain/.mutt/tmp
+
+# source colors and keybindings
+source /home/fblain/.mutt/accounts/uwolv.rc
+source /home/fblain/.mutt/aliases/professional_contacts
+source /home/fblain/.mutt/aliases/personnal_contacts
+source /home/fblain/.mutt/aliases/mailing-lists
+source /home/fblain/.mutt/colors
+source /home/fblain/.mutt/bindings
+source /home/fblain/.mutt/gpg.rc
+
+# Alias
+set alias_file=/home/fblain/.mutt/aliases/professional_contacts
+set alias_format = "%4n %t %-20a %r"
+set sort_alias = alias
+set reverse_alias
+
+# basic options
+set wait_key = no
+set mbox_type = Maildir
+set timeout = 3
+set mail_check = 0
+set delete
+set quit
+set thorough_search
+set mail_check_stats
+unset confirmappend
+unset move
+unset mark_old
+unset beep_new
+
+# compose View Options
+set envelope_from                    # which from?
+set edit_headers                     # show headers when composing
+set fast_reply                       # skip to compose when replying
+set askcc                            # ask for CC:
+set askcc                            # ask for CC:
+set forward_format = "Fwd: %s"       # format of subject when forwarding
+set forward_decode                   # decode when forwarding
+set attribution = "On %d, %n wrote:" # format of quoting header
+set reply_to                         # reply to Reply to: field
+set reverse_name                     # reply as whomever it was to
+set include                          # include message in replies
+set forward_quote                    # include message in forwards
+set editor='nvim +8 -c "set textwidth=77" -c "set colorcolumn=77" -c "set nocp" -c "set spell spelllang=en,fr"'
+set text_flowed
+# unset sig_dashes                     # no dashes before sig
+set sig_on_top
+unset mime_forward                   # forward attachments as part of body
+
+# status bar, date format, finding stuff etc.
+set status_chars = " *%A"
+# set status_format = "[ Folder: %f ] [%r%m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)? ]%>─%?p?( %p postponed )?"
+set status_format = " %?M?%M/?%m total: %?n?%n new, ?%?u?%u unread, ?%?p?%p drafts, ?%?t?%t +tagged, ?%?d?%d deleted, ?[%f %l] %?b?%b unread messages. ?%> %V sort by: %s/%S (%P)"
+set status_on_top # as you'd expect
+set date_format = "%d.%m.%Y %H:%M"
+set index_format = "%3C %S %D | %-26.26L %-50.100s %> %c"
+set pager_format = "Reading message %C of %m %> %lL [%P]" # pager statusbar
+set narrow_tree
+set sort = threads
+set sort_aux = reverse-last-date-received
+set uncollapse_jump
+set sort_re
+set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+set send_charset = "utf-8:iso-8859-1:us-ascii"
+set charset = "utf-8"
+set simple_search="~e %s | ~s %s | ~C %s"
+
+# Pager View Options
+set pager_index_lines = 10
+set pager_context = 3
+set pager_stop
+set menu_scroll
+set tilde
+unset markers
+
+# email headers and attachments
+ignore *
+unignore from: to: cc: date: subject:
+hdr_order from: to: cc: date: subject:
+alternative_order text/plain text/enriched text/html
+auto_view text/html
+
+# when composing emails, use this command to get addresses from
+# the addressbook with khard first, and everything else from mu index
+# set query_command = "( khard email --parsable '%s' | sed -n '1!p'; mu cfind --format=mutt-ab '%s' )"
+
+# sidebar patch config
+set sidebar_visible
+set sidebar_short_path
+set sidebar_width = 33
+set sidebar_folder_indent = yes
+set sidebar_indent_string = '  '
+set sidebar_format = "%D%?F? [%F]?%* %?N?%N/?%S"
+
+# Mailboxes to show in the sidebar.
+named-mailboxes "UWolv" =uwolv/INBOX "  archive" =uwolv/archive "  sent" =uwolv/sent "  draft" =uwolv/drafts "  junk" =uwolv/junk "  trash" =uwolv/trash
+named-mailboxes "GMX" =gmx/INBOX "  personal" =gmx/personal "    admin" =gmx/admin "    jobs" =gmx/jobs "  sent" =gmx/sent "  draft" =gmx/drafts "  junk" =gmx/junk "  trash" =gmx/trash
+
+# GPG/PGP 
+set pgp_sign_as = FC7C3BC0 
+set crypt_use_gpgme = yes
+set crypt_autosign = yes
+set crypt_verify_sig = yes
+set crypt_replysign = yes
+set crypt_replyencrypt = yes
+set crypt_replysignencrypted = yes
+
